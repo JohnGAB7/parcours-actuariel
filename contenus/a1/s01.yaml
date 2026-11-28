@@ -70,6 +70,8 @@ fiche:
         formules:
           - formule: "\\ddot{a}_{\\overline{n}|}=\\sum_{k=0}^{n-1}v^k=\\frac{1-v^n}{d}=(1+i)a_{\\overline{n}|}"
             explication: "Le double point indique des paiements en début de période. La valeur est supérieure à l'annuité immédiate pour i>0."
+          - formule: "\\ddot{a}_{\\overline{n}|}=n,\\quad i=0"
+            explication: "À taux nul, les n paiements effectués aux dates 0 à n−1 valent chacun 1 à la date 0 : la valeur actuelle est n."
           - formule: "\\ddot{a}_{\\overline{n}|}=1+a_{\\overline{n-1}|}"
             explication: "On isole le paiement immédiat à la date 0 ; les n−1 paiements restants forment une annuité immédiate."
       - titre: "6. Valeur accumulée d'une annuité"
