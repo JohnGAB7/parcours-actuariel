@@ -14,7 +14,7 @@ actu_basics:
   accroche_en: "In each loan payment, how much actually repays the principal?"
 
 fiche:
-  statut: brouillon
+  statut: prete
   vue_ensemble:
     question: "Comment décomposer un remboursement, calculer le solde restant dû et comparer des taux de rendement ?"
     pourquoi: "L'amortissement transforme un emprunt en flux périodiques. Comprendre la composition d'un paiement, le solde et les méthodes de valorisation est essentiel en crédit, assurance, retraite et analyse d'investissement."

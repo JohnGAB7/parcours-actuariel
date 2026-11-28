@@ -219,7 +219,7 @@ etapes:
       - ["Courbe des taux", "yield curve, term structure of interest rates", "The liabilities are discounted with the risk-free yield curve."]
 
 fiche:
-  statut: brouillon
+  statut: prete
   vue_ensemble:
     question: "Comment passer du prix d'une obligation à une lecture cohérente de la courbe des taux et de sa sensibilité ?"
     pourquoi: "Les obligations sont des instruments centraux pour investir, valoriser des engagements et mesurer le risque de taux. Un rendement unique résume les flux, tandis qu'une courbe spot permet de les actualiser par échéance."
@@ -378,7 +378,7 @@ fiche:
           - "Prix≈1 044,5182 €."
           - "Duration Macaulay≈4,5571 ans; duration modifiée≈4,3818."
           - "Convexité conventionnelle≈24,4766."
-          - "Pour un choc de +1 point de rendement, l'approximation de second ordre donne une variation relative d'environ −4,2599 %."
+          - "Pour un choc de +1 point de rendement, l'approximation de second ordre donne une variation relative d'environ −4,2594 %."
         resultat: "D_Mac≈4,5571; D_mod≈4,3818; Conv≈24,4766."
         interpretation: "La duration mesure la sensibilité locale; la convexité corrige la courbure. Une repricing exacte est préférable pour un choc significatif."
         controles:
@@ -407,7 +407,7 @@ fiche:
         enonce: "À YTM 4 %, estime la variation de prix d'une obligation standard lorsque le rendement monte de 0,5 point. Utilise duration modifiée 4,3818 et convexité 24,4766."
         corrige:
           - "Δy=0,005."
-          - "Approximation: −4,3818×0,005+0,5×24,4766×0,005²≈−2,1600 %."
+          - "Approximation: −4,3818×0,005+0,5×24,4766×0,005²≈−2,1603 %."
           - "La duration seule donne environ −2,1909 %; le terme de convexité atténue la baisse."
         feedback: "Le choc est exprimé en décimal. La convexité est multipliée par le carré du choc et la moitié."
   applications_labs:

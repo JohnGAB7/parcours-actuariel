@@ -13,7 +13,7 @@ actu_basics:
   accroche_en: "How many claims, and how much each: how an insurer combines the two."
 
 fiche:
-  statut: brouillon
+  statut: prete
   vue_ensemble:
     question: "Comment combiner le nombre aléatoire de sinistres et leur montant pour calculer la charge totale ?"
     pourquoi: "Le coût total d'un portefeuille dépend de deux sources de risque : la fréquence des sinistres et leur sévérité. Le modèle de somme aléatoire permet d'agréger ces deux dimensions et d'estimer la moyenne, la variance et les probabilités de pertes importantes."

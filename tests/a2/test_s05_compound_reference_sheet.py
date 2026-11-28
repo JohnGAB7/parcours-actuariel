@@ -13,7 +13,7 @@ def test_a2_s05_reference_sheet_is_complete_and_bilingual():
     fr = charger_seance("a2/s05", "fr")
     en = charger_seance("a2/s05", "en")
     overlay = yaml.safe_load((ROOT / "contenus/en/a2/s05.yaml").read_text(encoding="utf-8"))
-    assert fr["fiche"]["statut"] == "brouillon"
+    assert fr["fiche"]["statut"] == "prete"
     assert len(fr["fiche"]["cours_complet"]["sections"]) == 7
     assert len(fr["fiche"]["methodes"]["methodes"]) == 3
     assert len(fr["fiche"]["exemples_guides"]["exemples"]) == 3

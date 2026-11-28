@@ -276,7 +276,7 @@ fiche:
           - "Price≈1,044.5182."
           - "Macaulay duration≈4.5571 years; modified duration≈4.3818."
           - "Conventional convexity≈24.4766."
-          - "For a +1 percentage-point yield shock, the second-order approximation gives a relative change of about −4.2599 %."
+          - "For a +1 percentage-point yield shock, the second-order approximation gives a relative change of about −4.2594 %."
         resultat: "D_Mac≈4.5571; D_mod≈4.3818; Conv≈24.4766."
         interpretation: "Duration measures local sensitivity; convexity adjusts for curvature. Exact repricing is preferable for a material shock."
         controles:
@@ -302,7 +302,7 @@ fiche:
         enonce: "At YTM 4%, estimate the price change when yield rises by 0.5 percentage points. Use modified duration 4.3818 and convexity 24.4766."
         corrige:
           - "Δy=0.005."
-          - "Approximation: −4.3818×0.005+0.5×24.4766×0.005²≈−2.1600 %."
+          - "Approximation: −4.3818×0.005+0.5×24.4766×0.005²≈−2.1603 %."
           - "Duration alone gives about −2.1909%; convexity moderates the decline."
         feedback: "Express the shock as a decimal. Convexity is multiplied by the squared shock and by one half."
   applications_labs:

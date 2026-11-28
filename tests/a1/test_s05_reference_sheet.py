@@ -59,3 +59,15 @@ def test_reference_lab_code_is_valid_and_runs():
     assert isclose(namespace["spot_price"], 1024.57434500501, rel_tol=1e-12)
     assert len(namespace["forwards"]) == 5
     assert abs(namespace["approx_change"] - namespace["exact_change"]) < 1e-5
+
+
+def test_a1_s05_convexity_approximations_match_the_sheet():
+    flows = [50, 50, 50, 50, 1050]
+    price = sum(c * 1.04 ** -(t + 1) for t, c in enumerate(flows))
+    mac = sum((t + 1) * c * 1.04 ** -(t + 1) for t, c in enumerate(flows)) / price
+    mod = mac / 1.04
+    conv = sum((t + 1) * (t + 2) * c * 1.04 ** -(t + 3) for t, c in enumerate(flows)) / price
+    assert round(100 * (-mod * 0.01 + 0.5 * conv * 0.01**2), 4) == -4.2594
+    assert round(100 * (-4.3818 * 0.005 + 0.5 * 24.4766 * 0.005**2), 4) == -2.1603
+    text = Path(ROOT / "contenus/a1/s05.yaml").read_text(encoding="utf-8")
+    assert "−4,2594 %" in text and "−2,1603 %" in text

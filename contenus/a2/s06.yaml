@@ -12,6 +12,224 @@ actu_basics:
   accroche_fr: "Une franchise de 100 € : de combien baisse la prime ?"
   accroche_en: "A €100 deductible: how much does the premium drop?"
 
+fiche:
+  statut: prete
+  vue_ensemble:
+    question: "Comment passer du coût attendu des sinistres au prix payé par l'assuré ?"
+    pourquoi: "La prime pure ne couvre que les sinistres attendus. L'assureur doit aussi tenir compte des franchises et des plafonds, se protéger contre l'aléa, payer ses frais et dégager une marge. Ces étapes font passer de la prime pure à la prime commerciale."
+    objectifs:
+      - "Calculer une prime pure comme fréquence attendue fois sévérité moyenne."
+      - "Mesurer l'effet d'une franchise et d'un plafond sur la prime pure."
+      - "Utiliser les formules fermées de la loi exponentielle."
+      - "Calculer le taux d'élimination des sinistres."
+      - "Charger la prime pure en prime commerciale."
+      - "Lire les ratios sinistres sur primes, de frais et combiné."
+    prerequis:
+      - "Espérance d'une variable aléatoire et loi exponentielle."
+      - "Modèle fréquence × sévérité (A2.05)."
+    carte:
+      - "Prime pure : π = E[N] E[X]."
+      - "Franchise d : l'assureur paie (X − d)₊."
+      - "Plafond u : l'assureur paie min(X, u)."
+      - "LER = E[min(X, d)] / E[X]."
+      - "Prime commerciale : P = π (1 + η) / (1 − c)."
+      - "Ratio combiné = ratio sinistres + ratio de frais."
+    duree_minutes: 45
+  cours_complet:
+    sections:
+      - titre: "1. La prime pure"
+        contenu: "La prime pure est le coût attendu des sinistres d'un contrat sur la période. Sous le modèle fréquence × sévérité, elle vaut le nombre moyen de sinistres multiplié par le coût moyen d'un sinistre. Elle ne contient ni frais, ni marge, ni chargement de sécurité."
+        formules:
+          - formule: "\\pi=E[N]\\,E[X]"
+            explication: "Prime pure par contrat, sous indépendance de la fréquence et de la sévérité."
+      - titre: "2. Franchise et plafond"
+        contenu: "Avec une franchise d, l'assuré garde les d premiers euros de chaque sinistre : un sinistre inférieur à d ne coûte rien à l'assureur. Avec un plafond u, l'assureur ne paie jamais plus de u par sinistre. Les deux réduisent la prime pure, mais pas de la même façon : la franchise élimine beaucoup de petits sinistres, le plafond coupe la queue."
+        formules:
+          - formule: "(X-d)_+=\\max(X-d,\\,0)"
+            explication: "Paiement de l'assureur avec une franchise d."
+          - formule: "\\pi_d=E[N]\\,E\\big[(X-d)_+\\big]"
+            explication: "Prime pure avec franchise."
+          - formule: "\\min(X,u)"
+            explication: "Paiement de l'assureur avec un plafond u."
+      - titre: "3. Le cas exponentiel"
+        contenu: "Pour une sévérité exponentielle de moyenne θ, l'absence de mémoire donne des formules simples : la partie au-delà de d a la même loi que X, mais elle n'existe que si X dépasse d, ce qui arrive avec la probabilité e^{−d/θ}."
+        formules:
+          - formule: "E\\big[(X-d)_+\\big]=\\theta\\,e^{-d/\\theta}"
+            explication: "Paiement moyen par sinistre avec franchise."
+          - formule: "E\\big[\\min(X,u)\\big]=\\theta\\,\\big(1-e^{-u/\\theta}\\big)"
+            explication: "Paiement moyen par sinistre avec plafond."
+          - formule: "E\\big[\\min(X,u)-\\min(X,d)\\big]=\\theta\\,\\big(e^{-d/\\theta}-e^{-u/\\theta}\\big)"
+            explication: "Paiement moyen d'une tranche entre d et u."
+      - titre: "4. Taux d'élimination des sinistres"
+        contenu: "Le taux d'élimination des sinistres (LER) mesure la part de la charge que la franchise retire à l'assureur. Il aide à choisir une franchise : on lit directement la baisse de prime pure qu'elle apporte."
+        formules:
+          - formule: "\\text{LER}=\\frac{E[\\min(X,d)]}{E[X]}"
+            explication: "Part de la charge éliminée par la franchise."
+          - formule: "\\text{LER}=1-e^{-d/\\theta}"
+            explication: "Cas exponentiel."
+      - titre: "5. De la prime pure à la prime commerciale"
+        contenu: "La prime commerciale ajoute un chargement de sécurité η, pour l'aléa, et couvre des frais exprimés en pourcentage c de la prime elle-même : gestion, commissions, taxes. Comme les frais portent sur la prime, on divise par 1 − c au lieu d'ajouter c."
+        formules:
+          - formule: "P=\\frac{\\pi\\,(1+\\eta)}{1-c}"
+            explication: "Prime commerciale avec chargement de sécurité et frais proportionnels."
+          - formule: "\\text{résultat technique}=P-\\text{sinistres}-\\text{frais}"
+            explication: "Résultat de l'activité d'assurance, avant produits financiers."
+      - titre: "6. Les ratios"
+        contenu: "Le ratio sinistres sur primes rapporte les sinistres aux primes, le ratio de frais rapporte les frais aux primes, et leur somme est le ratio combiné. Sous 100 %, l'activité d'assurance dégage un résultat technique positif. Le ratio sinistres attendu ne dépend que de η et c."
+        formules:
+          - formule: "\\text{ratio combiné}=\\frac{\\text{sinistres}+\\text{frais}}{\\text{primes}}"
+            explication: "Ratio sinistres plus ratio de frais."
+          - formule: "\\frac{\\pi}{P}=\\frac{1-c}{1+\\eta}"
+            explication: "Ratio sinistres attendu."
+      - titre: "7. Hypothèses et limites"
+        contenu: "Ces formules supposent une loi de sévérité connue, l'indépendance entre fréquence et sévérité, et des frais proportionnels. En pratique, les paramètres sont estimés (module A2b), l'inflation déplace la sévérité, et une année réelle s'écarte de la moyenne : une prime juste en moyenne peut perdre de l'argent une mauvaise année."
+        formules:
+          - formule: "E\\big[(X-d)_+\\big]\\le E[X]"
+            explication: "Une franchise ne peut que réduire le paiement moyen."
+  methodes:
+    methodes:
+      - titre: "Calculer une prime pure avec franchise exponentielle"
+        quand_utiliser: "La fréquence moyenne est connue et la sévérité est exponentielle de moyenne θ."
+        etapes:
+          - "Identifier E[N], θ et la franchise d."
+          - "Calculer e^{−d/θ}."
+          - "Calculer E[(X − d)₊] = θ e^{−d/θ}."
+          - "Multiplier par E[N] pour obtenir la prime pure."
+        controles:
+          - "La prime pure avec franchise est inférieure à E[N] θ."
+          - "Le LER vaut 1 − e^{−d/θ}, entre 0 et 1."
+        erreurs:
+          - "Retirer d de la moyenne, comme si chaque sinistre dépassait d."
+          - "Confondre θ, la moyenne, avec le taux 1/θ."
+      - titre: "Charger une prime pure"
+        quand_utiliser: "On connaît la prime pure, le chargement de sécurité η et les frais c en pourcentage de la prime."
+        etapes:
+          - "Multiplier la prime pure par 1 + η."
+          - "Diviser par 1 − c."
+          - "Décomposer P en sinistres attendus, frais c P et marge attendue."
+        controles:
+          - "Les frais valent exactement c P."
+          - "π / P = (1 − c) / (1 + η)."
+        erreurs:
+          - "Multiplier par 1 + c au lieu de diviser par 1 − c : les frais ne sont plus couverts."
+          - "Appliquer les frais à la prime pure au lieu de la prime commerciale."
+  exemples_guides:
+    exemples:
+      - titre: "Franchise sur un portefeuille de téléphones"
+        enonce: "1 000 téléphones assurés, 2 % de vols par an, 500 € par téléphone volé. Calcule la prime pure sans franchise, puis avec une franchise de 100 € par vol."
+        raisonnement:
+          - "Sans franchise : π = 0,02 × 500 = 10 € par contrat, soit 10 000 € pour le portefeuille."
+          - "Avec franchise : chaque vol coûte 500 − 100 = 400 € à l'assureur."
+          - "π_d = 0,02 × 400 = 8 € par contrat."
+        resultat: "Prime pure de 10 € sans franchise et de 8 € avec franchise, soit une baisse de 20 %."
+        interpretation: "Avec un montant fixe supérieur à la franchise, la franchise retire exactement d à chaque sinistre."
+        controles:
+          - "Le LER vaut 100 / 500 = 20 %."
+          - "La prime du portefeuille passe de 10 000 € à 8 000 €."
+      - titre: "Franchise exponentielle et prime commerciale"
+        enonce: "Fréquence 5 %, sinistres exponentiels de moyenne 2 000 €, franchise de 500 €, chargement de 20 %, frais de 25 % de la prime. Calcule π_d, le LER, P et le ratio sinistres attendu."
+        raisonnement:
+          - "e^{−500/2 000} = e^{−0,25} = 0,7788."
+          - "π_d = 0,05 × 2 000 × 0,7788 = 77,88 €."
+          - "LER = 1 − 0,7788 = 0,2212."
+          - "P = 77,88 × 1,2 / 0,75 = 124,61 €."
+          - "Ratio sinistres attendu = 0,75 / 1,2 = 62,5 %."
+        resultat: "π_d = 77,88 €, LER = 22,12 %, P = 124,61 €, ratio sinistres 62,5 % et ratio combiné attendu 87,5 %."
+        interpretation: "Sur 124,61 €, 77,88 € paient les sinistres attendus, 31,15 € les frais, et il reste une marge attendue de 15,58 €."
+        controles:
+          - "77,88 + 31,15 + 15,58 = 124,61."
+          - "Le ratio sinistres ne dépend que de η et c."
+  exercices_corriges:
+    exercices:
+      - titre: "Fondamental — plafond exponentiel"
+        niveau: fondamental
+        enonce: "Sinistres exponentiels de moyenne 2 000 €, plafond de 10 000 € par sinistre. Calcule le paiement moyen par sinistre."
+        corrige:
+          - "E[min(X, u)] = θ (1 − e^{−u/θ}) = 2 000 × (1 − e^{−5})."
+          - "e^{−5} = 0,006738, donc E[min(X, u)] = 1 986,52 €."
+        feedback: "Le plafond retire peu à la moyenne, 13,48 €, car les sinistres au-delà de 10 000 € sont rares. Il protège surtout contre la queue."
+      - titre: "Intermédiaire — tranche entre franchise et plafond"
+        niveau: intermediaire
+        enonce: "Même sévérité, fréquence 5 %, franchise 500 € et plafond 10 000 €. Calcule la prime pure de la tranche."
+        corrige:
+          - "Paiement moyen = θ (e^{−d/θ} − e^{−u/θ}) = 2 000 × (0,7788 − 0,006738) = 1 544,13 €."
+          - "Prime pure = 0,05 × 1 544,13 = 77,21 €."
+        feedback: "La tranche coûte à peine moins que la franchise seule, 77,88 € : avec θ = 2 000 €, le plafond touche peu de sinistres."
+      - titre: "Avancé — inflation et franchise fixe"
+        niveau: avance
+        enonce: "L'inflation porte la moyenne des sinistres de 2 000 € à 2 200 €, la franchise reste à 500 € et la fréquence à 5 %. De combien la prime pure augmente-t-elle ?"
+        corrige:
+          - "Avant : π_d = 0,05 × 2 000 × e^{−0,25} = 77,88 €."
+          - "Après : π_d = 0,05 × 2 200 × e^{−500/2 200} = 87,64 €."
+          - "Hausse : 87,64 / 77,88 − 1 = 12,5 %."
+        feedback: "La prime pure monte plus vite que l'inflation, 12,5 % contre 10 % : une franchise fixe perd de son effet quand les montants augmentent."
+  applications_labs:
+    applications:
+      - titre: "De la prime pure à la prime commerciale"
+        contexte: "Un portefeuille fictif à sévérité exponentielle est tarifé avec une franchise, un chargement de sécurité et des frais proportionnels."
+        objectif: "Calculer π_d, le LER, la prime commerciale et sa décomposition, puis vérifier les identités."
+        outils: [python, excel]
+        entrees:
+          - "Fréquence 0,05 ; moyenne θ = 2 000 € ; franchise d = 500 €."
+          - "Chargement η = 20 % ; frais c = 25 % de la prime."
+        hypotheses:
+          - "Sévérité exponentielle, indépendante de la fréquence."
+          - "Frais proportionnels à la prime commerciale."
+        procedure:
+          - "Calculer la prime pure avec franchise et le LER."
+          - "Charger la prime pure en prime commerciale."
+          - |
+            ```python
+            import math
+
+            freq, theta, d = 0.05, 2000, 500
+            eta, c = 0.20, 0.25
+            pure = freq * theta * math.exp(-d / theta)
+            ler = 1 - math.exp(-d / theta)
+            gross = pure * (1 + eta) / (1 - c)
+            expenses = c * gross
+            margin = gross - pure - expenses
+            print(round(pure, 2), round(ler, 4), round(gross, 2), round(expenses, 2), round(margin, 2))
+            assert abs(pure / gross - (1 - c) / (1 + eta)) < 1e-12
+            ```
+          - "Faire varier d, η et c, et observer la prime commerciale."
+        sorties:
+          - "Prime pure, LER et prime commerciale."
+          - "Décomposition en sinistres, frais et marge attendue."
+        validation:
+          - "Sinistres + frais + marge = prime commerciale."
+          - "Ratio sinistres attendu = (1 − c) / (1 + η)."
+        limites:
+          - "Le modèle ignore l'incertitude sur les paramètres, l'inflation future et les produits financiers."
+  synthese_references:
+    memo:
+      - "π = E[N] E[X] : coût attendu, sans frais ni marge."
+      - "Franchise : (X − d)₊ ; plafond : min(X, u)."
+      - "Exponentielle : E[(X − d)₊] = θ e^{−d/θ} ; E[min(X, u)] = θ (1 − e^{−u/θ})."
+      - "LER = E[min(X, d)] / E[X] = 1 − e^{−d/θ} pour l'exponentielle."
+      - "P = π (1 + η) / (1 − c) : diviser par 1 − c, pas ajouter c."
+      - "Ratio combiné = ratio sinistres + ratio de frais."
+    glossaire:
+      - {terme_fr: "Prime pure", terme_en: "Pure premium", definition: "Expected cost of claims per policy, without expenses or margin."}
+      - {terme_fr: "Franchise", terme_en: "Deductible", definition: "Amount of each claim kept by the policyholder."}
+      - {terme_fr: "Plafond", terme_en: "Policy limit", definition: "Maximum amount the insurer pays per claim."}
+      - {terme_fr: "Taux d'élimination des sinistres", terme_en: "Loss elimination ratio", definition: "Share of expected losses removed by a deductible."}
+      - {terme_fr: "Chargement de sécurité", terme_en: "Risk loading", definition: "Margin added to the pure premium for uncertainty."}
+      - {terme_fr: "Prime commerciale", terme_en: "Gross premium", definition: "Premium charged to the customer, including loadings and expenses."}
+      - {terme_fr: "Ratio combiné", terme_en: "Combined ratio", definition: "Claims plus expenses, divided by premiums."}
+    maitrise:
+      - "I compute a pure premium from frequency and severity."
+      - "I measure the effect of a deductible and a policy limit."
+      - "I use the exponential closed forms and the loss elimination ratio."
+      - "I load a pure premium into a gross premium."
+      - "I read loss, expense and combined ratios."
+    references:
+      - {titre: "Klugman, Panjer et Willmot, Loss Models, chap. 8", detail: "Franchises, plafonds et taux d'élimination des sinistres."}
+      - {titre: "Werner et Modlin, Basic Ratemaking (CAS), chap. 1 et 7", detail: "Prime pure, chargements, prime commerciale et ratios."}
+    liens:
+      - {titre: "A2/S05 — Fréquence, sévérité et charge totale", cible: "a2/s05"}
+      - {titre: "A2b/S01 — Estimer une loi de sinistres", cible: "a2b/s01"}
+
 etapes:
   - type: quiz
     titre: "Test de positionnement"

@@ -1,6 +1,219 @@
 # English texts for session A2.06. Numbers, answers and tests live in contenus/a2/s06.yaml.
 titre: "Pure premium, deductible and gross premium"
 
+fiche:
+  vue_ensemble:
+    question: "How do we go from the expected cost of claims to the price the policyholder pays?"
+    pourquoi: "The pure premium only covers expected claims. The insurer must also account for deductibles and limits, protect itself against randomness, pay its expenses and earn a margin. These steps take us from the pure premium to the gross premium."
+    objectifs:
+      - "Calculate a pure premium as expected frequency times mean severity."
+      - "Measure the effect of a deductible and a policy limit on the pure premium."
+      - "Use the closed forms of the exponential distribution."
+      - "Calculate the loss elimination ratio."
+      - "Load the pure premium into a gross premium."
+      - "Read the loss, expense and combined ratios."
+    prerequis:
+      - "Expected value of a random variable and the exponential distribution."
+      - "Frequency × severity model (A2.05)."
+    carte:
+      - "Pure premium: π = E[N] E[X]."
+      - "Deductible d: the insurer pays (X − d)₊."
+      - "Policy limit u: the insurer pays min(X, u)."
+      - "LER = E[min(X, d)] / E[X]."
+      - "Gross premium: P = π (1 + η) / (1 − c)."
+      - "Combined ratio = loss ratio + expense ratio."
+  cours_complet:
+    sections:
+      - titre: "1. The pure premium"
+        contenu: "The pure premium is the expected cost of a policy's claims over the period. Under the frequency × severity model, it is the expected number of claims times the mean cost of a claim. It contains no expenses, no margin and no risk loading."
+        formules:
+          - formule: "\\pi=E[N]\\,E[X]"
+            explication: "Pure premium per policy, with frequency independent of severity."
+      - titre: "2. Deductible and policy limit"
+        contenu: "With a deductible d, the policyholder keeps the first d euros of each claim: a claim below d costs the insurer nothing. With a policy limit u, the insurer never pays more than u per claim. Both reduce the pure premium, but differently: the deductible removes many small claims, the limit cuts the tail."
+        formules:
+          - formule: "(X-d)_+=\\max(X-d,\\,0)"
+            explication: "Insurer's payment with a deductible d."
+          - formule: "\\pi_d=E[N]\\,E\\big[(X-d)_+\\big]"
+            explication: "Pure premium with a deductible."
+          - formule: "\\min(X,u)"
+            explication: "Insurer's payment with a policy limit u."
+      - titre: "3. The exponential case"
+        contenu: "For an exponential severity with mean θ, memorylessness gives simple formulas: the part above d has the same distribution as X, but it only exists if X exceeds d, which happens with probability e^{−d/θ}."
+        formules:
+          - formule: "E\\big[(X-d)_+\\big]=\\theta\\,e^{-d/\\theta}"
+            explication: "Mean payment per claim with a deductible."
+          - formule: "E\\big[\\min(X,u)\\big]=\\theta\\,\\big(1-e^{-u/\\theta}\\big)"
+            explication: "Mean payment per claim with a policy limit."
+          - formule: "E\\big[\\min(X,u)-\\min(X,d)\\big]=\\theta\\,\\big(e^{-d/\\theta}-e^{-u/\\theta}\\big)"
+            explication: "Mean payment of a layer between d and u."
+      - titre: "4. Loss elimination ratio"
+        contenu: "The loss elimination ratio (LER) measures the share of the loss that the deductible takes off the insurer. It helps choose a deductible: it reads directly as the cut in pure premium."
+        formules:
+          - formule: "\\text{LER}=\\frac{E[\\min(X,d)]}{E[X]}"
+            explication: "Share of the loss removed by the deductible."
+          - formule: "\\text{LER}=1-e^{-d/\\theta}"
+            explication: "Exponential case."
+      - titre: "5. From pure premium to gross premium"
+        contenu: "The gross premium adds a risk loading η, for randomness, and covers expenses expressed as a percentage c of the premium itself: administration, commissions, taxes. Since expenses are charged on the premium, we divide by 1 − c instead of adding c."
+        formules:
+          - formule: "P=\\frac{\\pi\\,(1+\\eta)}{1-c}"
+            explication: "Gross premium with a risk loading and proportional expenses."
+          - formule: "\\text{underwriting result}=P-\\text{claims}-\\text{expenses}"
+            explication: "Result of the insurance business, before investment income."
+      - titre: "6. The ratios"
+        contenu: "The loss ratio divides claims by premiums, the expense ratio divides expenses by premiums, and their sum is the combined ratio. Below 100%, the insurance business makes a positive underwriting result. The expected loss ratio depends only on η and c."
+        formules:
+          - formule: "\\text{combined ratio}=\\frac{\\text{claims}+\\text{expenses}}{\\text{premiums}}"
+            explication: "Loss ratio plus expense ratio."
+          - formule: "\\frac{\\pi}{P}=\\frac{1-c}{1+\\eta}"
+            explication: "Expected loss ratio."
+      - titre: "7. Assumptions and limits"
+        contenu: "These formulas assume a known severity distribution, independence between frequency and severity, and proportional expenses. In practice, the parameters are estimated (module A2b), inflation shifts severity, and an actual year strays from the mean: a premium that is right on average can lose money in a bad year."
+        formules:
+          - formule: "E\\big[(X-d)_+\\big]\\le E[X]"
+            explication: "A deductible can only reduce the mean payment."
+  methodes:
+    methodes:
+      - titre: "Calculate a pure premium with an exponential deductible"
+        quand_utiliser: "The expected frequency is known and severity is exponential with mean θ."
+        etapes:
+          - "Identify E[N], θ and the deductible d."
+          - "Calculate e^{−d/θ}."
+          - "Calculate E[(X − d)₊] = θ e^{−d/θ}."
+          - "Multiply by E[N] to get the pure premium."
+        controles:
+          - "The pure premium with a deductible is below E[N] θ."
+          - "The LER is 1 − e^{−d/θ}, between 0 and 1."
+        erreurs:
+          - "Subtracting d from the mean, as if every claim exceeded d."
+          - "Confusing θ, the mean, with the rate 1/θ."
+      - titre: "Load a pure premium"
+        quand_utiliser: "The pure premium, the risk loading η and the expenses c as a percentage of the premium are known."
+        etapes:
+          - "Multiply the pure premium by 1 + η."
+          - "Divide by 1 − c."
+          - "Split P into expected claims, expenses c P and expected margin."
+        controles:
+          - "Expenses are exactly c P."
+          - "π / P = (1 − c) / (1 + η)."
+        erreurs:
+          - "Multiplying by 1 + c instead of dividing by 1 − c: expenses are no longer covered."
+          - "Applying expenses to the pure premium instead of the gross premium."
+  exemples_guides:
+    exemples:
+      - titre: "Deductible on a phone portfolio"
+        enonce: "1,000 insured phones, 2% theft a year, €500 per stolen phone. Calculate the pure premium without a deductible, then with a €100 deductible per theft."
+        raisonnement:
+          - "Without a deductible: π = 0.02 × 500 = €10 per policy, that is €10,000 for the portfolio."
+          - "With the deductible: each theft costs the insurer 500 − 100 = €400."
+          - "π_d = 0.02 × 400 = €8 per policy."
+        resultat: "A pure premium of €10 without a deductible and €8 with it, a 20% cut."
+        interpretation: "With a fixed amount above the deductible, the deductible removes exactly d from each claim."
+        controles:
+          - "The LER is 100 / 500 = 20%."
+          - "The portfolio premium goes from €10,000 to €8,000."
+      - titre: "Exponential deductible and gross premium"
+        enonce: "5% frequency, exponential claims with mean €2,000, €500 deductible, 20% loading, expenses of 25% of the premium. Calculate π_d, the LER, P and the expected loss ratio."
+        raisonnement:
+          - "e^{−500/2,000} = e^{−0.25} = 0.7788."
+          - "π_d = 0.05 × 2,000 × 0.7788 = €77.88."
+          - "LER = 1 − 0.7788 = 0.2212."
+          - "P = 77.88 × 1.2 / 0.75 = €124.61."
+          - "Expected loss ratio = 0.75 / 1.2 = 62.5%."
+        resultat: "π_d = €77.88, LER = 22.12%, P = €124.61, loss ratio 62.5% and expected combined ratio 87.5%."
+        interpretation: "Out of €124.61, €77.88 pays expected claims, €31.15 pays expenses, and an expected margin of €15.58 remains."
+        controles:
+          - "77.88 + 31.15 + 15.58 = 124.61."
+          - "The loss ratio depends only on η and c."
+  exercices_corriges:
+    exercices:
+      - titre: "Fundamental — exponential policy limit"
+        enonce: "Exponential claims with mean €2,000, a €10,000 limit per claim. Calculate the mean payment per claim."
+        corrige:
+          - "E[min(X, u)] = θ (1 − e^{−u/θ}) = 2,000 × (1 − e^{−5})."
+          - "e^{−5} = 0.006738, so E[min(X, u)] = €1,986.52."
+        feedback: "The limit takes little off the mean, €13.48, because claims above €10,000 are rare. It mainly protects against the tail."
+      - titre: "Intermediate — layer between deductible and limit"
+        enonce: "Same severity, 5% frequency, €500 deductible and €10,000 limit. Calculate the pure premium of the layer."
+        corrige:
+          - "Mean payment = θ (e^{−d/θ} − e^{−u/θ}) = 2,000 × (0.7788 − 0.006738) = €1,544.13."
+          - "Pure premium = 0.05 × 1,544.13 = €77.21."
+        feedback: "The layer costs barely less than the deductible alone, €77.88: with θ = €2,000, the limit affects few claims."
+      - titre: "Advanced — inflation and a fixed deductible"
+        enonce: "Inflation raises the mean claim from €2,000 to €2,200, the deductible stays at €500 and the frequency at 5%. By how much does the pure premium rise?"
+        corrige:
+          - "Before: π_d = 0.05 × 2,000 × e^{−0.25} = €77.88."
+          - "After: π_d = 0.05 × 2,200 × e^{−500/2,200} = €87.64."
+          - "Increase: 87.64 / 77.88 − 1 = 12.5%."
+        feedback: "The pure premium rises faster than inflation, 12.5% against 10%: a fixed deductible loses its effect as amounts grow."
+  applications_labs:
+    applications:
+      - titre: "From pure premium to gross premium"
+        contexte: "A fictional portfolio with exponential severity is priced with a deductible, a risk loading and proportional expenses."
+        objectif: "Calculate π_d, the LER, the gross premium and its breakdown, then check the identities."
+        entrees:
+          - "Frequency 0.05; mean θ = €2,000; deductible d = €500."
+          - "Loading η = 20%; expenses c = 25% of the premium."
+        hypotheses:
+          - "Exponential severity, independent of frequency."
+          - "Expenses proportional to the gross premium."
+        procedure:
+          - "Calculate the pure premium with the deductible and the LER."
+          - "Load the pure premium into a gross premium."
+          - |
+            ```python
+            import math
+
+            freq, theta, d = 0.05, 2000, 500
+            eta, c = 0.20, 0.25
+            pure = freq * theta * math.exp(-d / theta)
+            ler = 1 - math.exp(-d / theta)
+            gross = pure * (1 + eta) / (1 - c)
+            expenses = c * gross
+            margin = gross - pure - expenses
+            print(round(pure, 2), round(ler, 4), round(gross, 2), round(expenses, 2), round(margin, 2))
+            assert abs(pure / gross - (1 - c) / (1 + eta)) < 1e-12
+            ```
+          - "Vary d, η and c, and watch the gross premium."
+        sorties:
+          - "Pure premium, LER and gross premium."
+          - "Breakdown into claims, expenses and expected margin."
+        validation:
+          - "Claims + expenses + margin = gross premium."
+          - "Expected loss ratio = (1 − c) / (1 + η)."
+        limites:
+          - "The model ignores parameter uncertainty, future inflation and investment income."
+  synthese_references:
+    memo:
+      - "π = E[N] E[X]: expected cost, without expenses or margin."
+      - "Deductible: (X − d)₊; policy limit: min(X, u)."
+      - "Exponential: E[(X − d)₊] = θ e^{−d/θ}; E[min(X, u)] = θ (1 − e^{−u/θ})."
+      - "LER = E[min(X, d)] / E[X] = 1 − e^{−d/θ} for the exponential."
+      - "P = π (1 + η) / (1 − c): divide by 1 − c, do not add c."
+      - "Combined ratio = loss ratio + expense ratio."
+    glossaire:
+      - {definition: "Expected cost of claims per policy, without expenses or margin."}
+      - {definition: "Amount of each claim kept by the policyholder."}
+      - {definition: "Maximum amount the insurer pays per claim."}
+      - {definition: "Share of expected losses removed by a deductible."}
+      - {definition: "Margin added to the pure premium for uncertainty."}
+      - {definition: "Premium charged to the customer, including loadings and expenses."}
+      - {definition: "Claims plus expenses, divided by premiums."}
+    maitrise:
+      - "I compute a pure premium from frequency and severity."
+      - "I measure the effect of a deductible and a policy limit."
+      - "I use the exponential closed forms and the loss elimination ratio."
+      - "I load a pure premium into a gross premium."
+      - "I read loss, expense and combined ratios."
+    references:
+      - {titre: "Klugman, Panjer and Willmot, Loss Models, chap. 8", detail: "Deductibles, policy limits and loss elimination ratio."}
+      - {titre: "Werner and Modlin, Basic Ratemaking (CAS), chap. 1 and 7", detail: "Pure premium, loadings, gross premium and ratios."}
+    liens:
+      - {titre: "A2/S05 — Frequency, severity and aggregate loss"}
+      - {titre: "A2b/S01 — Estimating a claim distribution"}
+
+
 etapes:
   - titre: "Placement check"
     intro: "Four questions before the lesson. If you get them all right, skim the recap and go straight to the calculation."
