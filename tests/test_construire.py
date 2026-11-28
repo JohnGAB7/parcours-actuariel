@@ -66,6 +66,9 @@ def test_homepage_is_bilingual_and_keeps_resume_progression_hook():
     assert "EXPLORE THE CURRICULUM" in english
     assert f'>{sum(1 for _ in builder.seances(parcours)):02d}<' in french
     assert "FR · EN" in french and "FR · EN" in english
+    template = (builder.SITE / "gabarits" / "page.html").read_text(encoding="utf-8")
+    assert "assets/vendor/katex/katex.min.css" in template
+    assert "assets/math-render.js" in template
 
 
 def test_actu_basics_parent_brand_is_consistent_in_both_languages():
@@ -85,6 +88,14 @@ def test_actu_basics_parent_brand_is_consistent_in_both_languages():
     assert builder.favicon_url("en") == "assets/actuarial-lab-mark.svg"
     assert builder.titre_site("fr") == "Laboratoire d’apprentissage actuariel par ACTU-BASICS"
     assert builder.titre_site("en") == "Actuarial Learning Lab by ACTU-BASICS"
+
+
+def test_footer_brand_uses_asset_base_not_language_root():
+    parcours = builder.charger_parcours()
+    footer = builder.pied(parcours, "../../en/", "../../index.html", "en", "../../")
+
+    assert 'src="../../assets/actuarial-lab-mark.svg"' in footer
+    assert 'src="../../en/assets/actuarial-lab-mark.svg"' not in footer
 
 
 def test_short_domain_labels_keep_full_titles_off_navigation_surfaces():

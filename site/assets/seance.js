@@ -90,9 +90,9 @@ function sourceUrl(value) {
   }
 }
 // Auto-wrap equation-like fragments in all ordinary text nodes, across every content component.
-const BARE_MATH = /(?<![\p{L}\d_])(?:[A-Za-zδΔ][\p{L}\d_{}]*|\d+(?:[.,]\d+)?)(?:\s*(?:=|<|>|≤|≥|≈|≠|\+|−|-|×|÷|\/|\^)\s*(?:[A-Za-zδΔ][\p{L}\d_{}]*|\d+(?:[.,]\d+)?|\([^)]*\)))+/gu;
+const BARE_MATH = /(?<![\p{L}\d_])(?:[A-Za-zδΔ][\p{L}\d_{}]*|\d+(?:[.,]\d+)?)(?:\s*(?:=|<|>|≤|≥|≈|≠|\+|−|×|÷|\/|\^)\s*(?:[A-Za-zδΔ][\p{L}\d_{}]*|\d+(?:[.,]\d+)?|\([^)]*\)))+/gu;
 function inlineNotation(value) {
-  return String(value ?? "").split(/(\$\$[\s\S]*?\$\$|\$[^$]*\$|\\\([^)]*\\\)|\\\[[\s\S]*?\\\])/g).map((part,index) => {
+  return String(value ?? "").split(/(\$\$[\s\S]*?\$\$|\$[^$]*\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/g).map((part,index) => {
     if (index % 2 === 1) return part;
     return part.replace(BARE_MATH, (match) => "$" + match.trim() + "$");
   }).join("");
@@ -136,7 +136,7 @@ function math(node) {
   prepareMathText(node);
   if (window.renderMathInElement) {
     renderMathInElement(node, {
-      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }],
+      delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }, { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }],
       throwOnError: false,
     });
   }

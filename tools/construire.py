@@ -218,7 +218,7 @@ def pied(parcours: dict, racine: str, autre: str, langue: str, base: str | None 
     liens = "".join(f'<a href="{racine}{d["id"]}/index.html">{e(dom_court(d, langue))}</a>' for d in parcours["domaines"])
     return (
         f'<footer class="pied gutter"><div class="pied-in">'
-        f'<div class="pied-col">{marque(racine, langue)}<p>{t["pied"]}</p></div>'
+        f'<div class="pied-col">{marque(racine, langue, base)}<p>{t["pied"]}</p></div>'
         f'<nav class="pied-col" aria-label="{t["domaines"]}"><span class="eyebrow">{t["domaines"]}</span>{liens}</nav>'
         f'<nav class="pied-col" aria-label="{t["compte_t"]}"><span class="eyebrow">{t["compte_t"]}</span>'
         f'<a href="{racine}compte/index.html">{t["compte"]}</a><a href="{racine}compte/index.html#confidentialite">{t["confid"]}</a>'
